@@ -110,7 +110,7 @@ const tripsUpdateTrip = async (req, res) => {
         .exec();
     if (!q) { // Database returned no data
         return res
-            .status(400)
+            .status(404)
             .json(err);
     } else { // Return resulting updated trip
         return res
@@ -122,9 +122,33 @@ const tripsUpdateTrip = async (req, res) => {
     // console.log(q);
 };
 
+const tripsDeleteTrip = async (req, res) => {
+    // Uncomment for debugging
+    // console.log(req.params);
+    // console.log(req.body);
+    const q = await Model
+        .findOneAndDelete(
+            { 'code': req.params.tripCode }
+        )
+        .exec();
+    if (!q) { // Database returned no data
+        return res
+            .status(404)
+            .json(err);
+    } else { // Return resulting updated trip
+        return res
+            .status(204)
+            .json(q);
+    }
+    // Uncomment the following line to show results of operation
+    // on the console
+    // console.log(q);
+};
+
 module.exports = {
     tripsList,
     tripsFindByCode,
     tripsAddTrip,
-    tripsUpdateTrip
+    tripsUpdateTrip,
+    tripsDeleteTrip
 };

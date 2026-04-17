@@ -6,6 +6,7 @@ import { Trip } from '../models/trip';
 import { TripData } from '../services/trip-data';
 
 import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-trip-listing',
@@ -22,7 +23,8 @@ export class TripListing implements OnInit {
 
   constructor(
     private tripData: TripData,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
     ) {
     console.log('trip-listing constructor');
   }
@@ -31,11 +33,20 @@ export class TripListing implements OnInit {
     this.router.navigate(['add-trip']);
   }
 
+  public deleteTrip(tripCode: string): void {
+    this.tripData.deleteTrip(tripCode).subscribe({
+      next: () => {
+        this.trips = this.trips.filter(t => t.code !== tripCode);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
   private getStuff(): void {
     this.tripData.getTrips()
       .subscribe({
         next: (value: any) => {
-          console.log("API RETURNED: ", value); // shows API is working, but where are the cards
+          
           this.trips = value;
           if (value.length > 0) {
             this.message = 'There are ' + value.length + ' trips available.';
@@ -43,6 +54,8 @@ export class TripListing implements OnInit {
           else {
             this.message = 'There were no trips retireved from the database';
           }
+
+          this.cdr.detectChanges();
           console.log(this.message);
         },
         error: (error: any) => {

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Trip } from '../models/trip';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-trip-card',
@@ -12,6 +13,7 @@ import { Trip } from '../models/trip';
 })
 export class TripCard implements OnInit{
   @Input('trip') trip: any;
+  @Output() delete = new EventEmitter<string>();
 
   constructor(private router: Router) {}
 
@@ -23,5 +25,9 @@ export class TripCard implements OnInit{
     localStorage.removeItem('tripCode');
     localStorage.setItem('tripCode', trip.code);
     this.router.navigate(['edit-trip']);
+  }
+
+  public deleteTrip(trip: Trip): void {
+    this.delete.emit(trip.code);
   }
 }

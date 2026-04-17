@@ -30,4 +30,8 @@ export class TripData {
     // console.log('Inside TripData::addTrips');
     return this.http.put<Trip>(this.url + '/'  +  formData.code, formData);
   }
+
+  deleteTrip(tripCode: string)  : Observable<Trip> {
+    return this.http.delete<Trip>(this.url + '/' + tripCode);
+  }
 }
