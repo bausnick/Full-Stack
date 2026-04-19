@@ -38,7 +38,8 @@ export class TripListing implements OnInit {
   public deleteTrip(tripCode: string): void {
     this.tripData.deleteTrip(tripCode).subscribe({
       next: () => {
-        this.trips = this.trips.filter(t => t.code !== tripCode);
+        //this.trips = this.trips.filter(t => t.code !== tripCode);
+        this.getStuff();
       },
       error: (err) => console.log(err)
     });

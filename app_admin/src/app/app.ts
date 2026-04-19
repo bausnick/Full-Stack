@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './navbar/navbar';
 import { provideRouter } from '@angular/router';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+// import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import { authInterceptProvider } from './utils/jwt-interceptor';
+
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +21,19 @@ export class App {
   title = 'Travlr Getaways Admin!';
 }
 
-export const appConfig: ApplicationConfig = {
+/*export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
     importProvidersFrom(HttpClient),
+    authInterceptProvider
+  ]
+};*/
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withInterceptorsFromDi()),
     authInterceptProvider
   ]
 };

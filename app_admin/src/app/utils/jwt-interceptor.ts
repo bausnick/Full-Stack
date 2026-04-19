@@ -12,14 +12,14 @@ import { Authentication } from '../services/authentication';
 export class JwtInterceptor implements HttpInterceptor {
   constructor(
     private authentication: Authentication
-  ) {}
+  ) {} 
 
   intercept(request: HttpRequest<any>, next: HttpHandler):
     Observable<HttpEvent<any>> {
     var isAuthAPI: boolean;
     // console.log('Interceptor::URL' + request.url);
-    if (request.url.startsWith('login') ||
-      request.url.startsWith('register')) {
+    if (request.url.includes('login') ||
+      request.url.includes('register')) {
       isAuthAPI = true;
     }
     else {

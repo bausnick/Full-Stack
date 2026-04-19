@@ -127,14 +127,12 @@ const tripsDeleteTrip = async (req, res) => {
     // console.log(req.params);
     // console.log(req.body);
     const q = await Model
-        .findOneAndDelete(
-            { 'code': req.params.tripCode }
-        )
+        .findOneAndDelete({ 'code': req.params.tripCode })
         .exec();
     if (!q) { // Database returned no data
         return res
             .status(404)
-            .json(err);
+            .json({ message: "Trip deleted" });
     } else { // Return resulting updated trip
         return res
             .status(204)
