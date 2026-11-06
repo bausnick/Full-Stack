@@ -3,7 +3,7 @@
     <button (click)="addTrip()" class = "btn btn-info">Add Trips</button>
 </div>
 <div class="row">
-    <div *ngFor="let trip of trips" class="col-md-4">
+    <div *ngFor="let trip of trips" class="col-12 col-md-3">
         <app-trip-card
             [trip]="trip"
             (delete)="deleteTrip($event)"
